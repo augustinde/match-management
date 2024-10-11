@@ -22,8 +22,9 @@ const isInNextHour = (timestamp) => {
 
 const matchAlreadyPlayed = (match) => {
     const now = new Date();
+    const fourHoursAgo = new Date(now.getTime() - 4 * 60 * 60 * 1000);
     const givenDate = new Date(match.matchDate * 1000);
-    return givenDate < now;
+    return givenDate < fourHoursAgo;
 }
 
 module.exports = { getTeamsFromMatch, getUsersFromTeam, getMatchDivision, isInNextHour, matchAlreadyPlayed };
