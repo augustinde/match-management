@@ -16,6 +16,7 @@ const client = new Client({
 client.on('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
 
+    //Check for matchs every hour (for testing it is set to every minute)
     await schedule('0-59 * * * *', async () => {
 
         console.log('Checking for matchs in next hour');
