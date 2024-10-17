@@ -1,4 +1,4 @@
-const getTeamsFromMatch = (match) => {
+const getTeamNamesFromMatch = (match) => {
     const team1Name = match.team1.name;
     const team2Name = match.team2.name;
 
@@ -27,4 +27,9 @@ const matchAlreadyPlayed = (match) => {
     return givenDate < fourHoursAgo;
 }
 
-module.exports = { getTeamsFromMatch, getUsersFromTeam, getMatchDivision, isInNextHour, matchAlreadyPlayed };
+const getHoursMinutesOfMatch = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.getHours() + 'h' + date.getMinutes();
+}
+
+module.exports = { getTeamNamesFromMatch, getUsersFromTeam, getMatchDivision, isInNextHour, matchAlreadyPlayed, getHoursMinutesOfMatch };
