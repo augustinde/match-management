@@ -35,7 +35,7 @@ client.on('ready', async () => {
             const futuresMatchs = await getMatchs("future");
 
             for (const match of futuresMatchs) {
-                if (isMatchStartedSoon(match.matchDate)) {
+                if (match.matchDate && isMatchStartedSoon(match.matchDate)) {
                     await createMatch(match)
                 }else{
                     console.log('The match is not taking place soon');
@@ -45,7 +45,7 @@ client.on('ready', async () => {
             const pastMatchs = await getMatchs("past");
 
             for (const match of pastMatchs) {
-                if (isMatchAlreadyPlayed(match)) {
+                if (match.matchDate && isMatchAlreadyPlayed(match.matchDate)) {
                     await deleteChannels(match);
                 }else{
                     console.log('The match is not over/has not yet been played');
