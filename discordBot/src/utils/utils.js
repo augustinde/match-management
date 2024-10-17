@@ -1,5 +1,7 @@
-const MAXIMUM_MATCH_DURATION = process.env.MAXIMUM_MATCH_DURATION;
-const MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES = process.env.MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES;
+const config = require("../config/config.json");
+
+const MAXIMUM_MATCH_DURATION = config.maximumMatchDuration;
+const MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES = config.maximumNumberOfHoursToRetrieveFutureMatches;
 
 const getTeamNamesFromMatch = (match) => {
     return [match.team1.name, match.team2.name];

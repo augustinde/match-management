@@ -1,6 +1,7 @@
 const {ChannelType, PermissionsBitField} = require("discord.js");
+const config = require("../config/config.json");
 
-const USER_LIMIT = process.env.CHANNEL_USER_LIMIT;
+const USER_LIMIT = config.userLimit;
 
 const createChannel = async (teamName, category, guild, channelName) => {
     try {

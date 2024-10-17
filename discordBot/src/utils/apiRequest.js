@@ -1,6 +1,7 @@
-const API_URL = process.env.API_URL;
+const config = require("../config/config.json");
 
-//TODO: Get matchs in GET_MATCHS_IN_HOURS hours
+const API_URL = config.apiUrl;
+
 const getMatchs = async (scheduled) => {
     console.log('Getting matchs in ' + scheduled);
     //const responseFetchMatchs = await fetch(API_URL + '/matchs?scheduled=' + scheduled);
@@ -12,6 +13,7 @@ const getMatchs = async (scheduled) => {
 }
 
 const getTeamByName = async (teamName) => {
+    //const responseFetchTeam = await fetch(API_URL + '/teams/' + teamName);
     const responseFetchTeam = await fetch(API_URL + '/teams?name=' + teamName);
     if (!responseFetchTeam.ok) {
         throw new Error('Error getting team');
