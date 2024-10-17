@@ -24,10 +24,10 @@ const isMatchStartedSoon = (timestamp) => {
     return givenDate > now && givenDate < nextHours;
 }
 
-const isMatchAlreadyPlayed = (match) => {
+const isMatchAlreadyPlayed = (timestamp) => {
     const now = new Date();
     const previousHours = new Date(now.getTime() - MAXIMUM_MATCH_DURATION * 60 * 60 * 1000);
-    const givenDate = new Date(match.matchDate * 1000);
+    const givenDate = new Date(timestamp * 1000);
     return givenDate < previousHours;
 }
 
