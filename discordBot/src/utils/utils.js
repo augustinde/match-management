@@ -1,30 +1,32 @@
-const getTeamNamesFromMatch = (match) => {
-    const team1Name = match.team1.name;
-    const team2Name = match.team2.name;
+const MAXIMUM_MATCH_DURATION = process.env.MAXIMUM_MATCH_DURATION;
+const MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES = process.env.MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES;
 
-    return [team1Name, team2Name];
+const getTeamNamesFromMatch = (match) => {
+    return [match.team1.name, match.team2.name];
 }
 
 const getUsersFromTeam = (team) => {
-    return team.members.map(member => member.user.thirdparties.discord.discordID);
+    return team.members
+        .filter(member => member.user.thirdparties && member.user.thirdparties.discord)
+        .map(member => member.user.thirdparties.discord.discordID);
 }
 
 const getMatchDivision = (match) => {
     return match.segment.name;
 }
 
-const isInNextHour = (timestamp) => {
+const isMatchStartedSoon = (timestamp) => {
     const now = new Date();
-    const nextHour = new Date(now.getTime() + 60 * 60 * 1000);
+    const nextHours = new Date(now.getTime() + MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES * 60 * 60 * 1000);
     const givenDate = new Date(timestamp * 1000);
-    return givenDate > now && givenDate < nextHour;
+    return givenDate > now && givenDate < nextHours;
 }
 
-const matchAlreadyPlayed = (match) => {
+const isMatchAlreadyPlayed = (match) => {
     const now = new Date();
-    const fourHoursAgo = new Date(now.getTime() - 4 * 60 * 60 * 1000);
+    const previousHours = new Date(now.getTime() - MAXIMUM_MATCH_DURATION * 60 * 60 * 1000);
     const givenDate = new Date(match.matchDate * 1000);
-    return givenDate < fourHoursAgo;
+    return givenDate < previousHours;
 }
 
 const getHoursMinutesOfMatch = (timestamp) => {
@@ -32,4 +34,4 @@ const getHoursMinutesOfMatch = (timestamp) => {
     return date.getHours() + 'h' + date.getMinutes();
 }
 
-module.exports = { getTeamNamesFromMatch, getUsersFromTeam, getMatchDivision, isInNextHour, matchAlreadyPlayed, getHoursMinutesOfMatch };
+module.exports = { getTeamNamesFromMatch, getUsersFromTeam, getMatchDivision, isMatchStartedSoon, isMatchAlreadyPlayed, getHoursMinutesOfMatch };

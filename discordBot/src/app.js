@@ -1,11 +1,11 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
-const {getUsersFromTeam, getMatchDivision, isInNextHour, matchAlreadyPlayed, getTeamNamesFromMatch,
-    getHoursMinutesOfMatch
+const {getUsersFromTeam, getMatchDivision, getTeamNamesFromMatch,
+    getHoursMinutesOfMatch, isMatchStartedSoon, isMatchAlreadyPlayed
 } = require("./utils/utils");
 const {schedule} = require("node-cron");
 const {getMatchs, getTeamByName} = require("./utils/apiRequest");
-const {createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists} = require("./utils/discordIUtils");
+const {createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName} = require("./utils/discordIUtils");
 
 const CRON_SCHEDULE = process.env.CRON_SCHEDULE;
 const GUILD_ID = process.env.GUILD_ID;
@@ -33,12 +33,23 @@ client.on('ready', async () => {
             const futuresMatchs = await getMatchs("future");
 
             for (const match of futuresMatchs) {
-                if (isInNextHour(match.matchDate)) {
+                if (isMatchStartedSoon(match.matchDate)) {
                     await createMatch(match)
                 }else{
                     console.log('The match is not taking place soon');
                 }
             }
+
+            const pastMatchs = await getMatchs("past");
+
+            for (const match of pastMatchs) {
+                if (isMatchAlreadyPlayed(match)) {
+                    await deleteChannels(match);
+                }else{
+                    console.log('The match is not over/has not yet been played');
+                }
+            }
+
         } catch (error) {
             console.error('Error getting matchs:', error);
         }
@@ -48,15 +59,17 @@ client.on('ready', async () => {
 
 const deleteChannels = async (match) => {
     const division = getMatchDivision(match);
-    const teams = getTeamNamesFromMatch(match);
+    const teamNames = getTeamNamesFromMatch(match);
     let category = await getCategoryWithName(guild, division);
 
-    if(category){
-        for (const channel of guild.channels.cache.get(category.id).children.cache.values()) {
-            if(teams.includes(channel.name)){
-                console.log('Deleting channel:', channel.name, 'in category:', category.name);
-                await guild.channels.delete(channel.id);
-            }
+    const hoursMinutes = getHoursMinutesOfMatch(match.matchDate);
+
+    for(const teamName of teamNames){
+        const channelName = teamName + ' - ' + hoursMinutes;
+        const channel = getChannelByName(guild, channelName);
+        if(channel) {
+            await guild.channels.delete(channel.id);
+            console.log('Deleting channel:', channelName, 'in category:', category.name);
         }
     }
 }
