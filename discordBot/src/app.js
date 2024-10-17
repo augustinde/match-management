@@ -6,10 +6,12 @@ const {getUsersFromTeam, getMatchDivision, getTeamNamesFromMatch,
 const {schedule} = require("node-cron");
 const {getMatchs, getTeamByName} = require("./utils/apiRequest");
 const {createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName} = require("./utils/discordIUtils");
+const config = require("./config/config.json");
 
-const CRON_SCHEDULE = process.env.CRON_SCHEDULE;
 const GUILD_ID = process.env.GUILD_ID;
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+
+const CRON_SCHEDULE = config.cronSchedule;
 
 let guild;
 
