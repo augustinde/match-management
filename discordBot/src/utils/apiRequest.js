@@ -2,6 +2,7 @@ const API_URL = process.env.API_URL;
 
 //TODO: Get matchs in GET_MATCHS_IN_HOURS hours
 const getMatchs = async (scheduled) => {
+    console.log('Getting matchs in ' + scheduled);
     //const responseFetchMatchs = await fetch(API_URL + '/matchs?scheduled=' + scheduled);
     const responseFetchMatchs = await fetch(API_URL + '/matchs');
     if (!responseFetchMatchs.ok) {

@@ -1,12 +1,14 @@
 const {ChannelType, PermissionsBitField} = require("discord.js");
 
+const USER_LIMIT = process.env.CHANNEL_USER_LIMIT;
+
 const createChannel = async (teamName, category, guild, channelName) => {
     try {
         const channel = await guild.channels.create({
             name: channelName,
             type: ChannelType.GuildVoice,
             parent: category.id,
-            userLimit: 8,
+            userLimit: USER_LIMIT,
             permissionOverwrites: [
                 {
                     id: guild.id,
@@ -43,4 +45,8 @@ const checkIfChannelExists = (guild, name) => {
     return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice);
 }
 
-module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists };
+const getChannelByName = (guild, name) => {
+    return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice);
+}
+
+module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName };
