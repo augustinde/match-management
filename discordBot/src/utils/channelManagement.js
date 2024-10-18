@@ -23,7 +23,7 @@ const createMatch = async (match, guild) => {
         const channelName = teamName + ' - ' + hoursMinutes;
 
         try {
-            if(!checkIfChannelExists(guild, channelName)){
+            if(!checkIfChannelExists(guild, channelName, category.id)){
                 const channel = await createChannel(teamName, category, guild, channelName);
 
                 for (const user of users) {
