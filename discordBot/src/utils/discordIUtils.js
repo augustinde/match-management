@@ -1,5 +1,5 @@
 const {ChannelType, PermissionsBitField} = require("discord.js");
-const config = require("../config/config.json");
+const config = require("../../config.json");
 
 const USER_LIMIT = config.userLimit;
 

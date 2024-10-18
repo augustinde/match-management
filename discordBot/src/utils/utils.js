@@ -1,4 +1,4 @@
-const config = require("../config/config.json");
+const config = require("../../config.json");
 
 const MAXIMUM_MATCH_DURATION = config.maximumMatchDuration;
 const MAXIMUM_NUMBER_OF_HOURS_TO_RETRIEVE_FUTURE_MATCHES = config.maximumNumberOfHoursToRetrieveFutureMatches;

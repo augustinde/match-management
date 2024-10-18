@@ -3,9 +3,8 @@ const { Client, GatewayIntentBits, Events, Collection } = require('discord.js');
 const {isMatchStartedSoon, isMatchAlreadyPlayed} = require("./utils/utils");
 const {schedule} = require("node-cron");
 const {getMatchs} = require("./utils/apiRequest");
-const config = require("./config/config.json");
+const config = require("../config.json");
 const {createMatch, deleteChannels} = require("./utils/channelManagement");
-const {InteractionCreate} = require("node:events");
 const path = require("node:path");
 const fs = require("node:fs");
 
