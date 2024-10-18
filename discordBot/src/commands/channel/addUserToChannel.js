@@ -1,13 +1,14 @@
 const {SlashCommandBuilder, PermissionFlagsBits, ChannelType} = require("discord.js");
-const {addUserToChannel: allowUserToChannel} = require("../../utils/discordIUtils");
+const {addUserToChannel} = require("../../utils/discordIUtils");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('allow-user-to-channel')
+        .setName('add-user-to-channel')
         .setDescription('Add a user to a channel')
         .addChannelOption(option =>
             option.setName('channel')
                 .setDescription('The channel to add the users to')
+                .addChannelTypes(ChannelType.GuildVoice)
                 .setRequired(true))
         .addUserOption(option =>
             option.setName('user1')
@@ -21,20 +22,16 @@ module.exports = {
             option.setName('user3')
                 .setDescription('The user to add')
                 .setRequired(false))
-        .setDefaultMemberPermissions(PermissionFlagsBits.MANAGE_CHANNELS),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
     async execute(interaction) {
         const channel = interaction.options.getChannel('channel');
         const users = ['user1', 'user2', 'user3']
             .map(option => interaction.options.getUser(option))
             .filter(user => user !== null);
 
-        if(channel.type !== ChannelType.GuildVoice){
-            return interaction.reply({ content: 'Please select a voice channel.', ephemeral: true });
-        }
-
         try {
             for (const user of users) {
-                await allowUserToChannel(channel, user);
+                await addUserToChannel(channel, user);
             }
             await interaction.reply({ content: `Users have been added to the channel ${channel.name}.`, ephemeral: true });
         } catch (error) {

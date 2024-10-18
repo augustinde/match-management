@@ -51,8 +51,8 @@ const getCategoryWithName = (guild, name) => {
     return guild.channels.cache.find(c => c.name.includes(name) && c.type === ChannelType.GuildCategory);
 }
 
-const checkIfChannelExists = (guild, name) => {
-    return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice);
+const checkIfChannelExists = (guild, name, categoryId) => {
+    return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice && c.parentId === categoryId);
 }
 
 const getChannelByName = (guild, name) => {
