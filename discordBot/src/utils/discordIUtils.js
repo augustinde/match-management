@@ -38,6 +38,15 @@ const addUserToChannel = async (channel, user) => {
     }
 }
 
+const removeUserFromChannel = async (channel, user) => {
+    try {
+        await channel.permissionOverwrites.delete(user);
+        console.log('User ' + user + ' removed from channel:' + channel.name);
+    } catch (error) {
+        console.error('Error removing user' + user + ' from channel:' + channel.name + '\n' + error);
+    }
+}
+
 const getCategoryWithName = (guild, name) => {
     return guild.channels.cache.find(c => c.name.includes(name) && c.type === ChannelType.GuildCategory);
 }
@@ -50,4 +59,4 @@ const getChannelByName = (guild, name) => {
     return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice);
 }
 
-module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName };
+module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName, removeUserFromChannel };
