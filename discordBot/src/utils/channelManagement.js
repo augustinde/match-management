@@ -4,7 +4,7 @@ const {
     getChannelByName,
     checkIfChannelExists,
     createChannel,
-    addUserToChannel
+    addUserToChannel, mentionUsersInChannel
 } = require("./discordIUtils");
 const {getTeamByName} = require("./apiRequest");
 
@@ -30,6 +30,7 @@ const createMatch = async (match, guild) => {
                     const discordUser = await guild.client.users.fetch(user);
                     await addUserToChannel(channel, discordUser);
                 }
+                await mentionUsersInChannel(channel, users, hoursMinutes);
             }else{
                 console.log('Channel already exists:', channelName);
             }

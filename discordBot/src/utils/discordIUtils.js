@@ -59,4 +59,18 @@ const getChannelByName = (guild, name) => {
     return guild.channels.cache.find(c => c.name === name && c.type === ChannelType.GuildVoice);
 }
 
-module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName, removeUserFromChannel };
+const mentionUsersInChannel = async (channel, users, matchHour) => {
+    let message = `Your match starting soon at ${matchHour}!\n`;
+    try{
+        for (const user of users) {
+            message += `<@${user}>\n`;
+        }
+        await channel.send(message);
+        console.log('Users mentioned in channel:' + channel.name);
+
+    } catch (error) {
+        console.error('Error mentioning users in channel:' + channel.name + '\n' + error);
+    }
+}
+
+module.exports = { createChannel, addUserToChannel, getCategoryWithName, checkIfChannelExists, getChannelByName, removeUserFromChannel, mentionUsersInChannel };
