@@ -5,7 +5,7 @@ const {
     checkIfChannelExists,
     createChannel,
     addUserToChannel, mentionUsersInChannel
-} = require("./discordIUtils");
+} = require("./discordUtils");
 const {getTeamByName} = require("./apiRequest");
 
 const createMatch = async (match, guild) => {

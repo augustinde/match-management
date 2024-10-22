@@ -1,5 +1,5 @@
 const {SlashCommandBuilder, PermissionFlagsBits, ChannelType} = require("discord.js");
-const {addUserToChannel} = require("../../utils/discordIUtils");
+const {addUserToChannel} = require("../../utils/discordUtils");
 
 module.exports = {
     data: new SlashCommandBuilder()

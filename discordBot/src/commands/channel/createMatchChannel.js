@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
 const {getTeamByName} = require("../../utils/apiRequest");
 const {getUsersFromTeam} = require("../../utils/utils");
-const {checkIfChannelExists, createChannel, addUserToChannel} = require("../../utils/discordIUtils");
+const {checkIfChannelExists, createChannel, addUserToChannel} = require("../../utils/discordUtils");
 
 module.exports = {
     data: new SlashCommandBuilder()

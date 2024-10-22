@@ -1,5 +1,5 @@
 const {SlashCommandBuilder, PermissionFlagsBits, ChannelType} = require("discord.js");
-const {removeUserFromChannel} = require("../../utils/discordIUtils");
+const {removeUserFromChannel} = require("../../utils/discordUtils");
 
 module.exports = {
     data: new SlashCommandBuilder()
